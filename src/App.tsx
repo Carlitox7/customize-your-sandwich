@@ -1,11 +1,40 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+
+import ThemeSwitch from './components/inputs/ThemeSwitch'
+
 import './App.css'
 
 function App() {
+  const [darkMode, setDarkMode] = useState(false)
+
+  useEffect(() => {
+    console.log('darkMode?: ', darkMode)
+  }, [darkMode])
+
   return (
-    <div className='container mx-auto bg-gray-200 rounded-xl shadow border p-8 m-10'>
-      <p className='text-3xl text-gray-700 font-bold mb-5'>Welcome!</p>
-      <p className='text-gray-500 text-lg'>React and Tailwind CSS in action</p>
+    <div
+      className={`h-screen w-full ${
+        darkMode && 'dark'
+      }`}
+    >
+      <div className='h-full w-full bg-white dark:bg-stone-900'>
+        {/* App bar */}
+        <div className='flex flex-row bg-red-100 px-10 p-6 place-content-between'>
+          {/* Logo */}
+          <img
+            className='object-contain max-h-8'
+            src='/assets/images/logo.png'
+            alt='logo'
+          />
+          {/* Dark/Light Switch */}
+          <div>
+            <ThemeSwitch
+              darkMode={darkMode}
+              onChange={(ev) => setDarkMode(ev)}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
