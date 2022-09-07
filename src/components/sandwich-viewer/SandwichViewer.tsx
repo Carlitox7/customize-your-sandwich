@@ -40,6 +40,14 @@ function Bread(
     `./assets/models/bread-${breadType}.glb`,
   );
 
+  useEffect(() => {
+    for (const matKey in result.materials) {
+      const material = result.materials[matKey] as MeshStandardMaterial;
+      material.roughness = 0.5;
+      material.metalness = 0;
+    }
+  }, [result]);
+
   return (
     <group ref={ref} {...groupProps} dispose={null}>
       {result.nodes.Scene.children.map((obj) => (
@@ -67,6 +75,14 @@ function Filling(
     GLTFLoader,
     `./assets/models/filling-${fillingType}.glb`,
   );
+
+  useEffect(() => {
+    for (const matKey in result.materials) {
+      const material = result.materials[matKey] as MeshStandardMaterial;
+      material.roughness = 0.5;
+      material.metalness = 0;
+    }
+  }, [result]);
 
   return (
     <group ref={ref} {...groupProps} dispose={null}>
@@ -120,7 +136,7 @@ function SandwichViewer(props: {
     <Canvas>
       <CameraController />
       <ambientLight />
-      <pointLight position={[10, 10, 10]} />
+      {/* <pointLight position={[0, 5, 0]} intensity={1} /> */}
 
       {/* Breads */}
       <Bread
