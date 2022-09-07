@@ -129,11 +129,12 @@ function Flag(
 }
 
 function SandwichViewer(props: {
+  className?: string;
   partItemSelected: Record<string, string>;
   onClick?: (value: string) => void;
 }) {
   return (
-    <Canvas>
+    <Canvas className={props.className}>
       <CameraController />
       <ambientLight />
       {/* <pointLight position={[0, 5, 0]} intensity={1} /> */}

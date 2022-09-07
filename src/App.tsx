@@ -101,12 +101,11 @@ function App() {
           </div>
 
           {/* Sandwich Viewer js */}
-          <div className='grow w-full'>
-            <SandwichViewer
-              partItemSelected={partItemSelected}
-              onClick={setPartSelected}
-            />
-          </div>
+          <SandwichViewer
+            className='grow'
+            partItemSelected={partItemSelected}
+            onClick={setPartSelected}
+          />
 
           {/* Sandwich Part Selector */}
           <div
