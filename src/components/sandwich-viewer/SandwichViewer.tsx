@@ -16,8 +16,9 @@ function CameraController() {
   useEffect(() => {
     const controls = new OrbitControls(camera, gl.domElement);
     controls.minDistance = 2;
-    controls.maxDistance = 5;
-    controls.reset();
+    controls.maxDistance = 3;
+    camera.position.z = 3;
+    // controls.reset();
     return () => {
       controls.dispose();
     };

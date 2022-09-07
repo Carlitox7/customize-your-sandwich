@@ -129,7 +129,7 @@ function App() {
 
           {/* Sandwich Part Item Selector */}
           <div
-            className='flex flex-row shrink bg-white px-3 py-5 gap-3 border-slate-300 dark:bg-[#292929]'
+            className='flex flex-row shrink bg-white px-3 py-5 gap-x-3 border-slate-300 dark:bg-[#292929]'
             onChange={handleChangePartItem}
           >
             {sandwichPartItems[partSelected].map((x) => (
