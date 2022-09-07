@@ -77,7 +77,7 @@ function App() {
     <div className={`h-screen w-full ${darkMode && 'dark'}`}>
       <div className='flex flex-col h-full w-full bg-neutral-100 dark:bg-[#101010] transition-colors duration-150'>
         {/*  App bar */}
-        <div className='absolute inset-x-0 flex flex-row px-10 p-6 place-content-between'>
+        <div className='absolute inset-x-0 flex flex-row px-5 py-3 md:px-10 md:py-6 place-content-between'>
           {/* Logo */}
           <img
             className='object-contain max-h-8'
@@ -94,7 +94,7 @@ function App() {
         </div>
 
         {/* Body */}
-        <div className='flex flex-col h-full w-1/3 mx-auto my-10 bg-gray-100 dark:bg-[#222222] rounded-lg border border-slate-300 overflow-hidden'>
+        <div className='flex flex-col h-full w-full md:w-[30rem] mx-auto pt-10 md:pt-0 md:my-10 bg-gray-100 dark:bg-[#222222] md:rounded-lg md:border border-slate-300 overflow-hidden'>
           {/* Title */}
           <div className='shrink font-sans font-bold text-2xl text-neutral-600 text-center py-5 dark:text-white'>
             Personaliza tu sandwich
@@ -110,7 +110,7 @@ function App() {
 
           {/* Sandwich Part Selector */}
           <div
-            className='flex flex-row bg-gray-200 px-3 py-5 gap-3 border-y border-slate-300 dark:bg-[#474747]'
+            className='flex flex-row shrink bg-gray-200 px-3 py-5 gap-3 border-y border-slate-300 dark:bg-[#474747]'
             onChange={handleChangePart}
           >
             {sandwichPart.map((x) => (
@@ -129,7 +129,7 @@ function App() {
 
           {/* Sandwich Part Item Selector */}
           <div
-            className='flex flex-row bg-white px-3 py-5 gap-3 border-slate-300 dark:bg-[#292929]'
+            className='flex flex-row shrink bg-white px-3 py-5 gap-3 border-slate-300 dark:bg-[#292929]'
             onChange={handleChangePartItem}
           >
             {sandwichPartItems[partSelected].map((x) => (
@@ -152,7 +152,7 @@ function App() {
                   />
                 ) : (
                   <div
-                    className='h-32 w-full'
+                    className='h-24 md:h-32 w-full'
                     style={{
                       backgroundColor: x,
                     }}
