@@ -1,25 +1,20 @@
 /* eslint-disable react/no-unknown-property */
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
   Canvas,
   ThreeElements,
+  ThreeEvent,
   useLoader,
   useThree,
 } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
-import {
-  Color,
-  MeshStandardMaterial,
-} from 'three';
+import { Color, MeshStandardMaterial } from 'three';
 
 function CameraController() {
   const { camera, gl } = useThree();
   useEffect(() => {
-    const controls = new OrbitControls(
-      camera,
-      gl.domElement,
-    );
+    const controls = new OrbitControls(camera, gl.domElement);
     controls.minDistance = 2;
     controls.maxDistance = 5;
     controls.reset();
@@ -33,17 +28,27 @@ function CameraController() {
 function Bread(
   props: ThreeElements['group'] & {
     breadType: string;
+    onClick?: (event: ThreeEvent<MouseEvent>) => void;
   },
 ) {
-  const { breadType, ...groupProps } = props;
+  const ref = useRef<THREE.Group>(null!);
+
+  const { breadType, onClick, ...groupProps } = props;
   const result = useLoader(
     GLTFLoader,
     `./assets/models/bread-${breadType}.glb`,
   );
 
   return (
-    <group {...groupProps} dispose={null}>
-      <primitive object={result.scene} />
+    <group ref={ref} {...groupProps} dispose={null}>
+      {result.nodes.Scene.children.map((obj) => (
+        <primitive
+          key={obj.uuid}
+          object={obj}
+          parent={ref.current}
+          onClick={onClick}
+        />
+      ))}
     </group>
   );
 }
@@ -51,17 +56,27 @@ function Bread(
 function Filling(
   props: ThreeElements['group'] & {
     fillingType: string;
+    onClick?: (event: ThreeEvent<MouseEvent>) => void;
   },
 ) {
-  const { fillingType, ...groupProps } = props;
+  const ref = useRef<THREE.Group>(null!);
+
+  const { fillingType, onClick, ...groupProps } = props;
   const result = useLoader(
     GLTFLoader,
     `./assets/models/filling-${fillingType}.glb`,
   );
 
   return (
-    <group {...groupProps} dispose={null}>
-      <primitive object={result.scene} />
+    <group ref={ref} {...groupProps} dispose={null}>
+      {result.nodes.Scene.children.map((obj) => (
+        <primitive
+          key={obj.uuid}
+          object={obj}
+          parent={ref.current}
+          onClick={onClick}
+        />
+      ))}
     </group>
   );
 }
@@ -69,27 +84,36 @@ function Filling(
 function Flag(
   props: ThreeElements['group'] & {
     color: string;
+    onClick?: (event: ThreeEvent<MouseEvent>) => void;
   },
 ) {
-  const result = useLoader(
-    GLTFLoader,
-    './assets/models/flag.glb',
-  );
+  const ref = useRef<THREE.Group>(null!);
 
-  (
-    result.materials
-      .colorFlagMaterial as MeshStandardMaterial
-  ).color = new Color(props.color);
+  const { color, onClick, ...groupProps } = props;
+  const result = useLoader(GLTFLoader, './assets/models/flag.glb');
+
+  useEffect(() => {
+    (result.materials.colorFlagMaterial as MeshStandardMaterial).color =
+      new Color(color);
+  }, [color]);
 
   return (
-    <group {...props} dispose={null}>
-      <primitive object={result.scene} />
+    <group ref={ref} {...groupProps} dispose={null}>
+      {result.nodes.Scene.children.map((obj) => (
+        <primitive
+          key={obj.uuid}
+          object={obj}
+          parent={ref.current}
+          onClick={onClick}
+        />
+      ))}
     </group>
   );
 }
 
 function SandwichViewer(props: {
   partItemSelected: Record<string, string>;
+  onClick?: (value: string) => void;
 }) {
   return (
     <Canvas>
@@ -100,22 +124,21 @@ function SandwichViewer(props: {
       {/* Breads */}
       <Bread
         position={[0, 0, 0]}
-        breadType={
-          props.partItemSelected['bread']
-        }
+        breadType={props.partItemSelected['bread']}
+        onClick={() => props.onClick?.('bread')}
       />
 
       {/* Filling */}
       <Filling
         position={[0, 0, 0]}
-        fillingType={
-          props.partItemSelected['filling']
-        }
+        fillingType={props.partItemSelected['filling']}
+        onClick={() => props.onClick?.('filling')}
       />
 
       {/* Flag */}
       <Flag
         color={props.partItemSelected['flag']}
+        onClick={() => props.onClick?.('flag')}
       />
     </Canvas>
   );

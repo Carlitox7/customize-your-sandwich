@@ -6,9 +6,7 @@ function RadioItem(props: {
   className?: string;
   children?: React.ReactNode;
   checked?: boolean;
-  onChange?: (
-    ev: ChangeEvent<HTMLInputElement>,
-  ) => void;
+  onChange?: (ev: ChangeEvent<HTMLInputElement>) => void;
 }) {
   return (
     <label className='basis-full cursor-pointer'>

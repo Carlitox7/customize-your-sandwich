@@ -1,14 +1,12 @@
-import React from 'react'
-import './ThemeSwitch.css'
+import React from 'react';
+import './ThemeSwitch.css';
 
 function ThemeSwitch(props: {
-  darkMode?: boolean
-  onChange?: (value: boolean) => void
+  darkMode?: boolean;
+  onChange?: (value: boolean) => void;
 }) {
-  function handleCheckbox(ev: {
-    target: { checked: boolean }
-  }) {
-    props.onChange?.(ev.target.checked)
+  function handleCheckbox(ev: { target: { checked: boolean } }) {
+    props.onChange?.(ev.target.checked);
   }
 
   return (
@@ -42,7 +40,7 @@ function ThemeSwitch(props: {
         ></div>
       </div>
     </label>
-  )
+  );
 }
 
-export default ThemeSwitch
+export default ThemeSwitch;
