@@ -23,8 +23,8 @@ function RadioItem(props: {
       <div
         className={
           props.className +
-          ' flex flex-row align-center justify-center gap-x-2 py-1 px-1 select-none' +
-          ' bg-white rounded-lg border border-neutral-300 peer-checked:border-[#F8832E] overflow-hidden' +
+          ' flex flex-row align-center justify-center gap-x-2 select-none' +
+          ' bg-white rounded-lg border border-neutral-300  overflow-hidden' +
           ' text-sm text-center text-neutral-300 peer-checked:text-neutral-700 font-bold' +
           ' transition-colors duration-150'
         }

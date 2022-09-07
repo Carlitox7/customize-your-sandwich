@@ -12,6 +12,7 @@ import './App.css';
 
 import LogoLight from './assets/logo-light.png';
 import LogoDark from './assets/logo-dark.png';
+import SandwichViewer from './components/sandwich-viewer/SandwichViewer';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -27,7 +28,7 @@ function App() {
     string,
     string[]
   > = {
-    bread: ['salmon', 'beef', 'ham'],
+    bread: ['sliced', 'buns', 'baguette'],
     filling: ['beef', 'salmon', 'ham'],
     flag: [
       '#E36666',
@@ -39,14 +40,10 @@ function App() {
   };
   const [partItemSelected, setPartItemSelected] =
     useState<Record<string, string>>({
-      bread: 'salmon',
+      bread: 'sliced',
       filling: 'beef',
       flag: '#E36666',
     });
-
-  useEffect(() => {
-    console.log('darkMode?: ', darkMode);
-  }, [darkMode]);
 
   function handleChangePart(
     ev: FormEvent<HTMLDivElement>,
@@ -54,8 +51,6 @@ function App() {
     const { value } =
       ev.target as HTMLInputElement;
     setPartSelected(value);
-
-    console.log(value);
   }
 
   function handleChangePartItem(
@@ -68,8 +63,6 @@ function App() {
       ...partItemSelected,
       [partSelected]: value,
     });
-
-    console.log(value);
   }
 
   return (
@@ -78,9 +71,9 @@ function App() {
         darkMode && 'dark'
       }`}
     >
-      <div className='h-full w-full bg-neutral-100 dark:bg-[#101010] transition-colors duration-150'>
-        {/* TODO: App bar */}
-        <div className='flex flex-row px-10 p-6 place-content-between'>
+      <div className='flex flex-col h-full w-full bg-neutral-100 dark:bg-[#101010] transition-colors duration-150'>
+        {/*  App bar */}
+        <div className='absolute inset-x-0 flex flex-row px-10 p-6 place-content-between'>
           {/* Logo */}
           <img
             className='object-contain max-h-8'
@@ -97,54 +90,56 @@ function App() {
         </div>
 
         {/* Body */}
-        <div className='flex flex-column justify-center'>
-          <div className='basis-1/3 bg-gray-100 dark:bg-[#222222] rounded-lg border border-slate-300 overflow-hidden'>
-            {/* Title */}
-            <div className='font-sans font-bold text-2xl text-neutral-600 text-center py-5 dark:text-white'>
-              Personaliza tu sandwich
-            </div>
+        <div className='flex flex-col h-full w-1/3 mx-auto my-10 bg-gray-100 dark:bg-[#222222] rounded-lg border border-slate-300 overflow-hidden'>
+          {/* Title */}
+          <div className='shrink font-sans font-bold text-2xl text-neutral-600 text-center py-5 dark:text-white'>
+            Personaliza tu sandwich
+          </div>
 
-            {/* Three js */}
-            <div className='w-full h-72'></div>
+          {/* Sandwich Viewer js */}
+          <div className='grow w-full'>
+            <SandwichViewer
+              partItemSelected={partItemSelected}
+            />
+          </div>
 
-            {/* Sandwich Part Selector */}
-            <div
-              className='flex flex-row bg-gray-200 px-3 py-5 gap-3 border-y border-slate-300 dark:bg-[#474747]'
-              onChange={handleChangePart}
-            >
-              {sandwichPart.map((x) => (
-                <RadioItem
-                  name='sandwichPart'
-                  value={x.name}
-                  key={x.name}
-                  checked={x.name == partSelected}
-                  className='dark:bg-[#3E3E3E] dark:peer-checked:text-white text-[#717171]'
-                >
-                  <BurgerIcon
-                    className='mb-1'
-                    element={x.name}
-                  />
-                  <span className='my-auto'>
-                    {x.title}
-                  </span>
-                </RadioItem>
-              ))}
-            </div>
+          {/* Sandwich Part Selector */}
+          <div
+            className='flex flex-row bg-gray-200 px-3 py-5 gap-3 border-y border-slate-300 dark:bg-[#474747]'
+            onChange={handleChangePart}
+          >
+            {sandwichPart.map((x) => (
+              <RadioItem
+                name='sandwichPart'
+                value={x.name}
+                key={x.name}
+                checked={x.name == partSelected}
+                className='dark:bg-[#3E3E3E] peer-checked:border-[#F8832E] dark:peer-checked:text-white text-[#717171]'
+              >
+                <BurgerIcon
+                  className='mb-1'
+                  element={x.name}
+                />
+                <span className='my-auto'>
+                  {x.title}
+                </span>
+              </RadioItem>
+            ))}
+          </div>
 
-            {/* Sandwich Part Item Selector */}
-            <div
-              className='flex flex-row bg-white px-3 py-5 gap-3 border-slate-300 dark:bg-[#292929]'
-              onChange={handleChangePartItem}
-            >
-              {sandwichPartItems[
-                partSelected
-              ].map((x) => (
+          {/* Sandwich Part Item Selector */}
+          <div
+            className='flex flex-row bg-white px-3 py-5 gap-3 border-slate-300 dark:bg-[#292929]'
+            onChange={handleChangePartItem}
+          >
+            {sandwichPartItems[partSelected].map(
+              (x) => (
                 <RadioItem
                   name='sandwichPartItem'
                   className={`px-0 py-0 border-2 ${
                     partSelected == 'flag'
                       ? 'peer-checked:border-[#33CEFF]'
-                      : 'dark:bg-[#292929]'
+                      : 'peer-checked:border-[#F8832E] dark:bg-[#292929]'
                   }`}
                   value={x}
                   checked={
@@ -168,10 +163,12 @@ function App() {
                     />
                   )}
                 </RadioItem>
-              ))}
-            </div>
+              ),
+            )}
           </div>
         </div>
+        {/* <div className='flex flex-column justify-center my-10'>
+        </div> */}
       </div>
     </div>
   );
